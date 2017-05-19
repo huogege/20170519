@@ -1,0 +1,27 @@
+//styl 可以自由设置属性传递参数，使用的时候在对于styl文件引入该文件，然后加入方法和参数
+border-1px($color)
+	position relative
+	&:after
+		display block
+		width 100%
+		position absolute
+		left 0
+		bottom 0
+		border-top 1px solid $color
+		content ''
+
+//这里通过媒体查询判断如果是2倍dpi则选择2x图，如果是3倍dpi则是3x图
+bg-image($url)
+	background-image url($url+"@2x.png")
+	@media (-webkit-min-device-pixel-ratio:3),(min-device-pixel-ratio:3)
+		background-image url($url+"@3x.png")
+
+.clearfix
+	display inline-block
+	&:after
+		content:"."
+		display:block
+		height:0
+		line-height 0
+		clear:both
+		visibility:hidden
