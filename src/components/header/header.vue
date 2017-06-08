@@ -12,7 +12,7 @@
 			<div class="description">{{seller.description}}/{{seller.deliveryTime}}分钟送达
 			</div>
 			<!-- 这里如果不加v-if会报错，因为在发送ajax之前seller为空对象 -->
-			<div v-if="seller.supports" class="support">  
+			<div v-if="seller.supports" class="support">
 				<span class="icon" :class="classMap[seller.supports[1].type]"></span>
 				<span class="text">{{seller.supports[1].description}}</span>
 			</div>
@@ -26,7 +26,27 @@
 	<div class="detail" v-show="detailShow">
 		<div class="detail-wrapper clearfix">
 			<div class="detail-main">
-
+				<h1>{{seller.name}}</h1>
+				<v-star :size="48" :score="4.6"></v-star>
+			  <div class="title">
+				<div class="line"></div>
+				<div class="text">优惠信息</div>
+				<div class="line"></div>
+			  </div>
+			  <div class="support">
+				<ul v-if="seller.supports">
+					<li class="suppor-item" v-for="item in seller.supports">
+						<span class="icon decrease" :class="classMap[item.type]"></span>
+						<span class="word">{{item.description}}</span>
+					</li>
+				</ul>
+			  </div>
+				<div class="title">
+					<div class="line"></div>
+					<div class="text">商家公告</div>
+					<div class="line"></div>
+				</div>
+				<div class="bulletin">{{seller.bulletin}}</div>
 			</div>
 		</div>
 		<div class="detail-close" @click="hideDetail">
@@ -36,7 +56,11 @@
 </div>
 </template>
 <script type="text/javascript">
+  import star from '../star/star'
 	export default{
+    components:{
+      'v-star':star
+    },
 		props:{
 			seller:{
 				type:Object
@@ -58,7 +82,7 @@
 				this.detailShow = false
 			}
 		}
-		
+
 	}
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
@@ -75,10 +99,10 @@
 			font-size 0   //这里可以防止文字与同级元素间的间隔，方法是将父元素fontsize设为0，子元素设置对于字体大小
 			.avater
 				display inline-block
-				vertical-align top    
+				vertical-align top
 				width 64px
 				height 64px
-				border-radius 2px 
+				border-radius 2px
 			.content
 				position relative
 				display inline-block
@@ -97,12 +121,12 @@
 						background-size 30px 18px
 						background-repeat no-repeat
 					.name
-						font-size 16px 
+						font-size 16px
 						font-weight bold
-						line-height 18px 
+						line-height 18px
 				.description
 					font-size 12px
-					line-height 12px		
+					line-height 12px
 					margin-bottom 10px
 				.support
 					font-size 10px
@@ -110,7 +134,7 @@
 					margin-bottom 2px
 					.icon
 						display inline-block
-						vertical-align top 
+						vertical-align top
 						width 12px
 						height 12px
 						background-size 12px 12px
@@ -135,11 +159,11 @@
 					background-color rgba(0,0,0,.2)
 					padding 0 8px
 					border-radius 10px
-					
+
 
 		.background     //这里设置半透明的蒙层效果
 			position absolute
-			top 0 
+			top 0
 			left 0
 			width 100%
 			height 100%
@@ -160,9 +184,70 @@
 			color #fff
 			.detail-wrapper
 				min-height 100%    //最小高度,这里detail是sticky footer的布局套路
+				width 100%
 				.detail-main
 					margin-top 64px
-					padding-bottom 64px				
+					padding-bottom 64px
+					h1
+						font-size 16px
+						font-weight 700
+						line-height 16px
+						text-align center
+					.star
+						text-align center
+						margin-top 16px
+						margin-bottom 28px
+					.title
+						display flex
+						width 80%
+						margin 30px auto 24px auto     //直接可以布局居中
+						.line                          //两端横线中间文字的布局
+							flex 1
+							position relative
+							top -6px
+							border-bottom 1px solid rgba(225,225,225,0.2)
+						.text
+							padding 0 12px
+							font-weight 700
+					.support
+						width 80%
+						margin 0 auto
+						.suppor-item
+							font-size 0     //为了抵消图片和文字间的间隔
+							line-height 12px
+							font-weight 200
+							margin-bottom 12px
+							&:last-child         //设置最后一个li margin为0
+								margin-bottom 0
+							.icon
+								display inline-block
+								vertical-align top
+								width 16px
+								height 16px
+								background-size 16px 16px
+								margin-left 12px
+								margin-right 6px
+							.word
+								font-size 12px
+								line-height 16px  //这里设置line-height== height 使得span文字居中
+
+							& .decrease
+								bg-image('decrease_2')
+							& .discount
+								bg-image('discount_2')
+							& .guarantee
+								bg-image('guarantee_2')
+							& .invoice
+								bg-image('invoice_2')
+							& .special
+								bg-image('special_2')
+					.bulletin
+						width 80%
+						margin 0 auto
+						font-size 12px
+						font-weight 200
+						line-height 24px
+
 			.detail-close
 				position relative
 				width 32px

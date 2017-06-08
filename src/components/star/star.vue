@@ -9,15 +9,15 @@
   var CLS_half = 'half';
   var ClS_off = 'off';
   export default{
+    props:{
+      size:{
+        type:Number
+      },
+      score:{
+        type:Number
+      }
+    },
       computed:{
-          props:{
-              size:{
-                  type:Number
-              },
-              score:{
-                  type:Number
-              }
-          },
           starType:function (){
               return 'star-' + this.size;
           },
